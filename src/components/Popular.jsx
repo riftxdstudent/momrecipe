@@ -9,18 +9,19 @@ function Popular() {
 
 	const getPopular = async () => {
 		const apiKey = await fetch(
-			'https://api.spoonacular.com/recipes/random?apiKey=bc933957a610472990c29ce6610013c1&number=9'
+			'https://api.spoonacular.com/recipes/random?apiKey=0b8d7edba3b64eb98854bc15c26cb020&number=9'
 		);
 		const data = await apiKey.json();
+		console.log(data)
 		setPopular(data.recipes);
 	}
 
 	return (
 		<div>
-			{popular.map(recipe => {
-				return(
-					<div key={recipe.id}>
-						<p>{recipe.title}</p>
+			{popular.map((recipe) => {
+				return (
+					<div className='my-16 mx-0' key={recipe.id}>
+						<h3>Popular Picks</h3>
 					</div>
 				);
 			})}
