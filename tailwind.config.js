@@ -8,8 +8,8 @@ module.exports = {
       '25rem': '25rem',
     },
     borderRadius: {
-      '4xl': '2rem'
-    }
+      '4xl': '2rem',
+    },
   },
   plugins: [],
 }

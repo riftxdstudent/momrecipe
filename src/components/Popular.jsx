@@ -10,20 +10,25 @@ function Popular() {
   }, []);
 
   const getPopular = async () => {
-    const apiKey = await fetch(
-      "https://api.spoonacular.com/recipes/random?apiKey=0b8d7edba3b64eb98854bc15c26cb020&number=9"
-    );
-    const data = await apiKey.json();
-    console.log(data.recipes);
-    setPopular(data.recipes);
+    const checkStorage = localStorage.getItem("popular");
+
+    if (checkStorage) {
+      setPopular(JSON.parse(checkStorage));
+    } else {
+      const apiKey = await fetch(
+        "https://api.spoonacular.com/recipes/random?apiKey=0b8d7edba3b64eb98854bc15c26cb020&number=9"
+      );
+      const data = await apiKey.json();
+
+	  localStorage.setItem("popular", JSON.stringify(data.recipes));
+      console.log(data.recipes);
+      setPopular(data.recipes);
+    }
   };
 
   return (
     <div>
-      <div
-        className="Wrapper 
-	  my-16 
-	  mx-0">
+      <div className="Wrapper my-16 mx-0">
         <h3
           className="sectionTitle 
 		font-bold 
@@ -40,39 +45,18 @@ function Popular() {
           }}>
           {popular.map((recipe) => {
             return (
-              <SplideSlide>
-                <div
-                  className="Card 
-				min-h-25rem 
-				rounded-3xl 
-				overflow-hidden 
-				relative">
-                  <p
-                    className="Title 
-				  absolute 
-				  z-10 
-				  left-2/4 
-				  bottom-0 
-				  transform translate-x-2/4 translate-y-2/4 
-				  text-white 
-				  font-semibold 
-				  text-base 
-				  h-2/6 
-				  flex 
-				  items-center">
-                    {recipe.title}
+              <SplideSlide key={recipe.id}>
+                <div className="min-h-[25rem] rounded-3xl overflow-hidden relative">
+                  <p className="Title absolute z-10 left-1/2 bottom-0 -translate-x-2/4 translate-y-0 h-2/5 text-white text-base text-center font-semibold w-full flex justify-center items-center">
+                    {" "}
+                    {recipe.title}{" "}
                   </p>
                   <img
-                    className="Image 
-					rounded-4xl 
-					absolute 
-					left-0 
-					w-full 
-					h-full 
-					object-cover"
+                    className="rounded-4xl absolute left-0 w-full h-full object-cover aspect-video"
                     src={recipe.image}
                     alt={recipe.title}
                   />
+                  <div className="z-[3] absolute w-full h-full bg-gradient-to-b from-transparent to-gray-400"></div>
                 </div>
               </SplideSlide>
             );
@@ -113,6 +97,13 @@ function Popular() {
 	font-size: 1rem
 	height: 40%
 	display: flex
-	align-items: center*/
+	align-items: center
+	
+	Gradient:
+	z-index: 3
+	position: absolute
+	width: 100%
+	height: 100%
+	background: linear-gradient*/
 
 export default Popular;
