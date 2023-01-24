@@ -15,12 +15,11 @@ function Popular() {
     if (checkStorage) {
       setPopular(JSON.parse(checkStorage));
     } else {
-      const apiKey = await fetch(
-        "https://api.spoonacular.com/recipes/random?apiKey=0b8d7edba3b64eb98854bc15c26cb020&number=9"
+      const api = await fetch(
+        'https://api.spoonacular.com/recipes/random?apiKey={process.env.REACT_APP_API_KEY}&number=9'  // <--- This is the line that needs to be changed
       );
-      const data = await apiKey.json();
-
-	  localStorage.setItem("popular", JSON.stringify(data.recipes));
+      const data = await api.json();
+      localStorage.setItem("popular", JSON.stringify(data.recipes));
       console.log(data.recipes);
       setPopular(data.recipes);
     }
@@ -48,8 +47,7 @@ function Popular() {
               <SplideSlide key={recipe.id}>
                 <div className="min-h-[25rem] rounded-3xl overflow-hidden relative">
                   <p className="Title absolute z-10 left-1/2 bottom-0 -translate-x-2/4 translate-y-0 h-2/5 text-white text-base text-center font-semibold w-full flex justify-center items-center">
-                    {" "}
-                    {recipe.title}{" "}
+                    {recipe.title}
                   </p>
                   <img
                     className="rounded-4xl absolute left-0 w-full h-full object-cover aspect-video"
